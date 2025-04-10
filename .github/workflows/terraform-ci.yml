@@ -100,12 +100,13 @@ jobs:
       - name: Install Dependencies
         run: |
           cd test  # or wherever your go.mod file is
+          go mod init terraformtestmod
           go mod tidy
           go mod download
 
       - name: Run Terratest
         run: |
-          go test -v ./test/terraform_network_test.go -tags="azure azureslim network"
+          go test -v -tags="azure azureslim network"
           
       - name: Upload Test Results
         uses: actions/upload-artifact@v4
