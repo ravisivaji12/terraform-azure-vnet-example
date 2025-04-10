@@ -1,0 +1,84 @@
+name: Terraform Cloud CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  terraform-plan:
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.3.0
+
+      - name: Terraform Init and Plan
+        run: |
+          terraform init
+          terraform plan -out=plan.out
+
+      - name: Upload Plan as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: terraform-plan
+          path: plan.out
+
+  terraform-apply:
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+    environment: production
+    needs: terraform-plan
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.3.0
+
+      - name: Terraform Apply
+        run: |
+          terraform apply -auto-approve plan.out
+
+  terratest:
+    name: Run Terratest
+    runs-on: ubuntu-latest
+    environment: production
+    needs: terraform-apply
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.18'
+
+      - name: Install Dependencies
+        run: |
+          go mod tidy
+          go mod download
+
+      - name: Run Terratest
+        run: |
+          go test -v ./test/terraform_network_test.go
+          
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: terratest-results
+          path: terratest-results.xml
