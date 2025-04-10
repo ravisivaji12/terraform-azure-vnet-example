@@ -51,6 +51,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     needs: terraform-plan
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
     steps:
       - name: Checkout the repository
@@ -77,6 +82,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     needs: terraform-apply
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
     steps:
       - name: Checkout the repository
@@ -94,7 +104,7 @@ jobs:
 
       - name: Run Terratest
         run: |
-          go test -v ./test/terraform_network_test.go
+          go test -v ./test/terraform_network_test.go -tags="azure azureslim network"
           
       - name: Upload Test Results
         uses: actions/upload-artifact@v4
