@@ -21,8 +21,8 @@ func TestAVMNetworkConfig(t *testing.T) {
 	// Load Terraform config
 	terraformOptions := &terraform.Options{
 		TerraformBinary: "terraform",
-		TerraformDir: "..",
-		VarFiles:     []string{"../terraform-azure-vnet-example/terraform.tfvars"},
+		TerraformDir: "/home/runner/work/terratest-azure-vnet-poc/terraform-azure-vnet-example",
+		VarFiles:     []string{"/home/runner/work/terratest-azure-vnet-poc/terraform-azure-vnet-example/terraform.tfvars"},
 	}
 
 	defer terraform.Destroy(t, terraformOptions)
