@@ -1,2 +1,2 @@
-# terraform-azure-vnet-example
-terraform-azure-vnet-example
+# terrtest-azure-vnet-poc
+terrtest-azure-vnet-poc
