@@ -34,17 +34,17 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan -out=plan.out
 
       - name: Verify tfplan file exists
         run: |
-          if [ -f tfplan ]; then echo "File exists"; else echo "File does not exist"; exit 1; fi
+          if [ -f plan.out ]; then echo "File exists"; else echo "File does not exist"; exit 1; fi
 
       - name: Upload Terraform Plan as Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: terraform-plan
-          path: tfplan  # This refers to the tfplan file generated in the runner's environment
+          name: tfplan
+          path: plan.out  # This refers to the tfplan file generated in the runner's environment
 
   terraform-apply:
     name: Terraform Apply
@@ -67,7 +67,7 @@ jobs:
           name: tfplan
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -auto-approve plan.out
      
   terratest:
     name: Run Terratest
