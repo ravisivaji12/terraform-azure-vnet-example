@@ -102,7 +102,10 @@ jobs:
         run: |          
           go mod tidy
           go mod download
-
+          
+      - name: List current working directory
+        run: ls -alh
+        
       - name: Run Terratest
         working-directory: ./test
         run: |
