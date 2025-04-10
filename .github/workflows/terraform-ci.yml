@@ -47,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tfplan
-          path: plan.out  # This refers to the tfplan file generated in the runner's environment...
+          path: plan.out  # This refers to the tfplan file generated in the runner's environment.
 
   terraform-apply:
     name: Terraform Apply
