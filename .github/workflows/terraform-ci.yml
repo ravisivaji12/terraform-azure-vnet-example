@@ -107,8 +107,12 @@ jobs:
         with:
           go-version: '1.21'
 
-      - name: current working dir
-        run: pwd
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.ARM_CLIENT_ID }}
+          client-secret: ${{ secrets.ARM_CLIENT_SECRET }}
+          tenant-id: ${{ secrets.ARM_TENANT_ID }}
       
       - name: Install Dependencies
         working-directory: ./test
@@ -116,9 +120,6 @@ jobs:
           go mod tidy
           go mod download
           
-      - name: List current working directory
-        run: pwd
-        
       - name: Run Terratest
         working-directory: ./test
         run: |
