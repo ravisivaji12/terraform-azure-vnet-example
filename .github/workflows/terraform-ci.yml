@@ -60,11 +60,15 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.11.2
+          
+      - name: Download plan file
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan
 
       - name: Terraform Apply
-        run: |
-          terraform apply -auto-approve plan.out
-
+        run: terraform apply -auto-approve plan.out
+     
   terratest:
     name: Run Terratest
     runs-on: ubuntu-latest
