@@ -1,10 +1,9 @@
 terraform {
-  backend "remote" {
-    organization = "SivajiRaavi"  # Replace with your Terraform Cloud organization name
-
-    workspaces {
-      name = "terratest-azure-vnet-poc"  # Replace with your workspace name
-    }
+  backend "azurerm" {
+    resource_group_name   = "rg-terraform-state"
+    storage_account_name  = "sttfstate123s"
+    container_name        = "terraform-state"
+    key                   = "prod/terraform.tfstate"
   }
 }
 provider "azurerm" {
