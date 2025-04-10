@@ -20,6 +20,7 @@ func TestAVMNetworkConfig(t *testing.T) {
 
 	// Load Terraform config
 	terraformOptions := &terraform.Options{
+		TerraformBinary: "terraform",
 		TerraformDir: "..",
 		VarFiles:     []string{"../terraform-azure-vnet-example/terraform.tfvars"},
 	}
