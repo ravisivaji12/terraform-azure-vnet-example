@@ -98,13 +98,13 @@ jobs:
           go-version: '1.21'
 
       - name: Install Dependencies
-        run: |
-          cd test  # or wherever your go.mod file is
-          go mod init terraformtestmod
+        working-directory: ./test
+        run: |          
           go mod tidy
           go mod download
 
       - name: Run Terratest
+        working-directory: ./test
         run: |
           go test -v -tags="azure azureslim network"
           
