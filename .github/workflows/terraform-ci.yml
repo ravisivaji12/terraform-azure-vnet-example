@@ -54,12 +54,12 @@ jobs:
 
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.3.0
+          terraform_version: 1.11.2
 
       - name: Terraform Apply
         run: |
@@ -73,7 +73,7 @@ jobs:
 
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Go
         uses: actions/setup-go@v3
@@ -90,7 +90,7 @@ jobs:
           go test -v ./test/terraform_network_test.go
           
       - name: Upload Test Results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: terratest-results
           path: terratest-results.xml
