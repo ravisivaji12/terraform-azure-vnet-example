@@ -67,7 +67,7 @@ jobs:
           name: tfplan
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve plan.out
+        run: terraform apply -auto-approve tfplan
      
   terratest:
     name: Run Terratest
