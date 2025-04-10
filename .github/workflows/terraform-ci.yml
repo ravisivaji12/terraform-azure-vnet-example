@@ -99,6 +99,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
+          cd test  # or wherever your go.mod file is
           go mod tidy
           go mod download
 
