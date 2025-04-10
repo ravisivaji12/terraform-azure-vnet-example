@@ -106,10 +106,7 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: '1.21'
-
-      - name: Install gotestsum
-        run: go install gotest.tools/gotestsum@latest
-
+      
       - name: Log in to Azure
         uses: azure/login@v2
         with:
@@ -124,20 +121,11 @@ jobs:
           
       - name: Run Terratest
         working-directory: ./test
-        run: |
-          mkdir -p test-results
-          go test --junitfile test-results/terratest-results.xml -v -tags="azure azureslim network"
+        run: |          
+          go test -v -tags="azure azureslim network"
                     
       - name: Upload Test Results
         uses: actions/upload-artifact@v4
         with:
           name: terratest-results
-          path: terratest-results.xml
-
-      - name: Report Terratest results to GitHub
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: Terratest Results
-          path: test-results/terratest-results.xml
-          reporter: java-junit
+          path: terratest-results.xml        
